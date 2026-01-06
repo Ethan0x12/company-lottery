@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <!-- 预加载字体文件，提升文本渲染速度 -->
+    <link rel="preload" href="/src/assets/fonts/SourceHanSansOLD-Medium-2.otf" as="font" type="font/otf" crossorigin="anonymous">
+    <link rel="preload" href="/src/assets/fonts/SourceHanSansOLD-Bold-2.otf" as="font" type="font/otf" crossorigin="anonymous">
+    <!-- 基础视口设置，禁止缩放 -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <!-- 微信H5特有的meta标签 -->
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <!-- iOS Safari 私有属性，全屏模式 -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>陶二厂H5应用</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
