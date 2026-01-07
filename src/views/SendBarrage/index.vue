@@ -128,14 +128,14 @@ const handleSendClick = async () => {
     return '弹幕内容不能为空'
   }
 
-  // 必须包含的关键词
-  const requiredKeywords = ['增长', '长效剂型', '40周年']
-  const missingKeywords = requiredKeywords.filter((keyword) => !text.includes(keyword))
+  // // 必须包含的关键词
+  // const requiredKeywords = ['增长', '长效剂型', '40周年']
+  // const missingKeywords = requiredKeywords.filter((keyword) => !text.includes(keyword))
 
-  if (missingKeywords.length > 0) {
-    // alert(`请在弹幕中包含以下关键词：${missingKeywords.join('、')}`)
-    return `缺少关键词：${missingKeywords.join('、')}`
-  }
+  // if (missingKeywords.length > 0) {
+  //   // alert(`请在弹幕中包含以下关键词：${missingKeywords.join('、')}`)
+  //   return `缺少关键词：${missingKeywords.join('、')}`
+  // }
 
   // try {
   //   await barrageStore.activeSendBarrage({
@@ -191,10 +191,10 @@ const handleBlur = () => {
           class="relative w-[260px] h-[100px] border-2 border-[#00BAFF] bg-white rounded-2xl !mx-auto"
         >
           <!-- <img src="@/assets/images/input_box.png" alt="input-box" /> -->
-          <div class="textarea w-full h-full">
+          <div class="textarea w-full h-full py-[10px]">
             <div
               v-show="isPlaceholder"
-              class="placeholder absolute top-0 left-0 text-[1.15rem] leading-[2.4rem] text-[#C0C0C0] px-[10px]"
+              class="placeholder absolute top-0 left-0 text-[1.15rem] leading-[2.4rem] text-[#C0C0C0] px-[10px] py-[10px]"
             >
               {{ displayedText }}
               <span
@@ -215,7 +215,7 @@ const handleBlur = () => {
               maxlength="100"
               @focus="handleFocus"
               @blur="handleBlur"
-              class="relative z-[1] w-full h-full bg-transparent resize-none outline-none text-[1.15rem] leading-[2.4rem] px-[10px]"
+              class="relative z-[1] w-full h-full bg-transparent resize-none outline-none text-[1.18rem] leading-[2.4rem] px-[10px]"
             ></textarea>
           </div>
         </div>
