@@ -11,13 +11,21 @@ defineOptions({
 const router = useRouter()
 // 用户隐私存储
 const homeStore = useHomeStore()
+// 表单数据
+const form = ref({
+  name: '',
+  department: '',
+})
 // chebox
 const isShowTip = ref<boolean>(false)
 const isAnimating = ref<boolean>(false)
 // 发送弹幕
 const handleSendBarrageClick = () => {
-  if (!homeStore.privacyCheckbox) {
-    isShowTip.value = true
+  // if (!homeStore.privacyCheckbox) {
+  //   isShowTip.value = true
+  //   return
+  // }
+  if (!form.value.name || !form.value.department) {
     return
   }
   router.push('/send_barrage')
@@ -56,15 +64,35 @@ onMounted(() => {
 <template>
   <AppBackground>
     <!-- 首页顶部导航 -->
-    <header class="flex items-center justify-between !px-6 !pt-8 !pb-4">
+    <!-- <header class="flex items-center justify-between !px-6 !pt-8 !pb-4">
       <div class="iconfont icon-bilibili text-[#e84075] !text-4xl"></div>
       <img src="@/assets/images/logo.png" alt="logo" class="w-30" />
-    </header>
+    </header> -->
     <!-- 首页主要内容 -->
-    <main class="flex flex-1 flex-col items-center justify-center">
-      <div class="relative w-full !px-4 !mt-28">
+    <main class="flex flex-1 flex-col items-center justify-start w-full !mt-[22rem]">
+      <form class="relative w-full !px-[59px]">
+        <div class="flex items-center">
+          <label for="name" class="text-white text-[1.6rem] mr-[8px] whitespace-nowrap">姓名</label>
+          <input
+            id="name"
+            v-model="form.name"
+            class="flex-1 border-2 border-[#00BAFF] rounded-xl px-4 py-2 h-[37px] text-[1.4rem] w-full shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+            type="text"
+          />
+        </div>
+        <div class="flex items-center mt-[34px]">
+          <label for="department" class="text-white text-[1.6rem] mr-[8px] whitespace-nowrap"
+            >部门</label
+          >
+          <input
+            id="department"
+            v-model="form.department"
+            class="flex-1 border-2 border-[#00BAFF] rounded-xl px-4 py-2 h-[37px] text-[1.4rem] w-full shadow-[0_0_10px_rgba(0,0,0,0.5)]"
+            type="text"
+          />
+        </div>
         <!-- 16:9 比例的视频尺寸容器 (使用Tailwind CSS) -->
-        <div class="w-full relative overflow-hidden">
+        <!-- <div class="w-full relative overflow-hidden">
           <div :class="['w-full h-full animate-' + imageAnimation]">
             <img
               class="object-fill w-full h-full"
@@ -72,54 +100,11 @@ onMounted(() => {
               alt="large_screen"
             />
           </div>
-        </div>
+        </div> -->
+      </form>
+      <div class="w-[169px] mt-[50px]" @click="handleSendBarrageClick">
+        <img src="@/assets/images/button-text-comfirm.png" alt="btn" />
       </div>
-      <div class="w-50 !mt-15" @click="handleSendBarrageClick">
-        <img src="@/assets/images/send_barrage.png" alt="btn" />
-      </div>
-      <div class="!mt-8 text-[#815c48] font-bold flex items-center space-x-3">
-        <label for="privacy-checkbox" class="relative cursor-pointer flex items-center space-x-2">
-          <!-- 隐藏原生复选框 -->
-          <input
-            v-model="homeStore.privacyCheckbox"
-            type="checkbox"
-            id="privacy-checkbox"
-            class="sr-only"
-          />
-          <!-- 自定义复选框 -->
-          <div class="relative">
-            <!-- 复选框背景 -->
-            <div
-              class="w-5 h-5 border-2 border-[#815c48] rounded transition-colors duration-200 hover:border-[#5a3e31]"
-            ></div>
-            <!-- 复选框勾选图标 -->
-            <div
-              class="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-200"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-3 h-3 text-white"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-          </div>
-          <!-- 复选框标签 -->
-          <span class="!ml-2">我已阅读并同意相关用户隐私协议</span>
-        </label>
-      </div>
-      <span
-        :style="{ visibility: isShowTip ? 'visible' : 'hidden' }"
-        :class="['!my-3 font-black text-[#f00]', { 'animate-shake': isAnimating }]"
-      >
-        请先勾选隐私条款
-      </span>
     </main>
   </AppBackground>
 </template>

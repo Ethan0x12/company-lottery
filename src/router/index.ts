@@ -7,7 +7,8 @@ const router = createRouter({
     {
       path: '/',
       name: '/',
-      redirect: import.meta.env.MODE !== 'development' ? '/authorize' : '/home',
+      redirect: '/home'
+      // redirect: import.meta.env.MODE !== 'development' ? '/authorize' : '/home',
     },
     {
       path: '/authorize',
@@ -32,17 +33,17 @@ const router = createRouter({
   ],
 })
 
-if (import.meta.env.MODE !== 'development') {
-  router.beforeEach((to, from) => {
-    const { isLoggedIn } = useLoginStore()
-    if (to.name === 'large_screen') {
-      return true
-    }
-    if (to.name !== 'authorize' && !isLoggedIn) {
-      return { name: 'authorize' }
-    }
-    return true
-  })
-}
+// if (import.meta.env.MODE !== 'development') {
+//   router.beforeEach((to, from) => {
+//     const { isLoggedIn } = useLoginStore()
+//     if (to.name === 'large_screen') {
+//       return true
+//     }
+//     if (to.name !== 'authorize' && !isLoggedIn) {
+//       return { name: 'authorize' }
+//     }
+//     return true
+//   })
+// }
 
 export default router

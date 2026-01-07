@@ -1,44 +1,44 @@
 <script setup lang="ts">
 import AppBackground from '@/components/background.vue'
-import { useRouter } from 'vue-router'
+// import { useRouter } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useBarrageStore } from '@/stores/barrage'
-import defaultBackgroundImage from '@/assets/images/background-2.png'
+// import { useBarrageStore } from '@/stores/barrage'
+// import defaultBackgroundImage from '@/assets/images/background-2.png'
 
 // store
-const barrageStore = useBarrageStore()
+// const barrageStore = useBarrageStore()
 
 // 路由返回
-const router = useRouter()
+// const router = useRouter()
 
 defineOptions({
   name: 'SendBarrageIndex',
 })
 
 // 返回事件
-const handleBackClick = () => {
-  router.back()
-}
+// const handleBackClick = () => {
+//   router.back()
+// }
 
 // 选择颜色
 // 定义颜色选项
 const colorOptions = [
-  '#e7211a', // 红色
-  '#ec661a', // 橙色
-  '#f4a018', // 黄色
-  '#f5ca1f', // 浅黄色
-  '#efea3c', // 浅绿色
-  '#8ec32c', // 绿色
-  '#4cb134', // 深绿色
-  '#006464', // 青色
-  '#3663ae', // 蓝色
-  '#0CB6F2', // 浅蓝色
-  '#FF5588', // 紫色
-  '#212222', // 黑色
-  '#9b9a9b', // 灰色
-  '#ffffff', // 白色
+  '#FFF000', // 红色
+  '#E770EE', // 橙色
+  '#03FF37', // 黄色
+  '#00D2FF', // 浅黄色
+  // '#efea3c', // 浅绿色
+  // '#8ec32c', // 绿色
+  // '#4cb134', // 深绿色
+  // '#006464', // 青色
+  // '#3663ae', // 蓝色
+  // '#0CB6F2', // 浅蓝色
+  // '#FF5588', // 紫色
+  // '#212222', // 黑色
+  // '#9b9a9b', // 灰色
+  // '#ffffff', // 白色
 ]
-const selectedColor = ref('#ffffff')
+const selectedColor = ref('#FFF000')
 const handleColorSelect = (color: string) => {
   selectedColor.value = color
 }
@@ -54,7 +54,7 @@ const isPlaceholder = ref(true)
 // })
 
 // 打字动画相关
-const placeholderText = '发个友善的弹幕见证当下(输入文字区)'
+const placeholderText = '用一句话表达对2026年马年的祝福（请包含增长、长效剂型、40周年）'
 const displayedText = ref('')
 const typingIndex = ref(0)
 const typingSpeed = 100 // 打字速度，毫秒
@@ -121,29 +121,43 @@ onUnmounted(() => {
 const visible = ref(false)
 // 发送按钮点击
 const handleSendClick = async () => {
-  if (barrageText.value.trim() === '') {
+  // 验证弹幕内容
+  const text = barrageText.value.trim()
+  if (text === '') {
+    // alert('弹幕内容不能为空')
     return '弹幕内容不能为空'
   }
-  try {
-    await barrageStore.activeSendBarrage({
-      content: barrageText.value,
-      font_color: selectedColor.value,
-    })
-  } catch (error) {
-    console.log('error', error)
-    return error
+
+  // 必须包含的关键词
+  const requiredKeywords = ['增长', '长效剂型', '40周年']
+  const missingKeywords = requiredKeywords.filter((keyword) => !text.includes(keyword))
+
+  if (missingKeywords.length > 0) {
+    // alert(`请在弹幕中包含以下关键词：${missingKeywords.join('、')}`)
+    return `缺少关键词：${missingKeywords.join('、')}`
   }
+
+  // try {
+  //   await barrageStore.activeSendBarrage({
+  //     content: barrageText.value,
+  //     font_color: selectedColor.value,
+  //   })
+  // } catch (error) {
+  //   console.log('error', error)
+  //   return error
+  // }
+
   visible.value = true
-  document.body.style.height = '100vh'
-  document.body.style.overflow = 'hidden'
+  // document.body.style.height = '100vh'
+  // document.body.style.overflow = 'hidden'
 }
 // 关闭弹窗
-const handleCloseClick = () => {
-  visible.value = false
-  document.body.style.height = 'auto'
-  document.body.style.overflow = 'auto'
-  router.replace({ name: 'home' })
-}
+// const handleCloseClick = () => {
+//   visible.value = false
+//   document.body.style.height = 'auto'
+//   document.body.style.overflow = 'auto'
+//   router.replace({ name: 'home' })
+// }
 
 const handleFocus = () => {
   isPlaceholder.value = false
@@ -160,8 +174,8 @@ const handleBlur = () => {
 </script>
 
 <template>
-  <AppBackground :backgroundImage="defaultBackgroundImage">
-    <header class="fixed top-0 left-0 right-0 flex items-center justify-between !py-6 !px-3 z-50">
+  <AppBackground>
+    <!-- <header class="fixed top-0 left-0 right-0 flex items-center justify-between !py-6 !px-3 z-50">
       <div
         @click="handleBackClick"
         class="text-[#e4cec4] font-bold !text-4xl cursor-pointer flex items-center space-x-2"
@@ -169,90 +183,93 @@ const handleBlur = () => {
         <img src="@/assets/images/arrow-left.png" alt="arrow-left" class="w-12" />
         <span>返回</span>
       </div>
-    </header>
-    <main class="flex-1 flex flex-col items-center !pt-6">
-      <!-- 输入框 -->
-      <div class="!mx-4 relative">
-        <img src="@/assets/images/input_box.png" alt="input-box" />
-        <div class="textarea absolute bottom-0 h-[60%] left-0 w-full !py-[5%] !px-[7%]">
-          <div
-            v-show="isPlaceholder"
-            class="placeholder absolute left-[6%] right-[6%] !text-[2rem] leading-[2.4rem] text-white font-bold"
-          >
-            {{ displayedText }}
-            <span
-              v-if="isPlaceholder && typingIndex < placeholderText.length"
-              class="inline-block w-4 h-8 bg-white ml-1 animate-blink"
-            ></span>
-            <span class="icon iconfont icon-qianbi !text-[2rem]"></span>
-          </div>
-          <img
-            v-show="!visible"
-            class="absolute w-[20%] bottom-[8%] right-[5%]"
-            src="@/assets/images/black_pot.png"
-          />
-          <textarea
-            v-model="barrageText"
-            v-show="showColorSetting"
-            :style="{ color: selectedColor }"
-            maxlength="30"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            class="relative z-[1] w-full h-[60%] bg-transparent resize-none outline-none font-bold !text-[2rem] leading-[2.4rem]"
-          ></textarea>
-        </div>
-      </div>
-      <!-- 颜色设置 -->
-      <transition name="fade-in">
-        <div v-show="showColorSetting" class="min-w-[60%]">
-          <div class="color-setting w-full !px-15 overflow-hidden !mt-8 !pb-2">
-            <!-- 颜色设置标题 -->
+    </header> -->
+    <main class="flex flex-1 flex-col items-center justify-start w-full !mt-[20rem]">
+      <div v-if="!visible">
+        <!-- 输入框 -->
+        <div
+          class="relative w-[260px] h-[100px] border-2 border-[#00BAFF] bg-white rounded-2xl !mx-auto"
+        >
+          <!-- <img src="@/assets/images/input_box.png" alt="input-box" /> -->
+          <div class="textarea w-full h-full">
             <div
-              class="bg-[#FF5588] shadow text-white font-bold text-[1.2rem] !px-4 !pt-2 !pb-6 text-center inline-block border-2 border-white rounded-t-xl shadow-[#333_0_5px_6px]"
+              v-show="isPlaceholder"
+              class="placeholder absolute top-0 left-0 text-[1.15rem] leading-[2.4rem] text-[#C0C0C0] px-[10px]"
             >
-              颜色设置
+              {{ displayedText }}
+              <span
+                v-if="isPlaceholder && typingIndex < placeholderText.length"
+                class="inline-block w-4 h-8 bg-white ml-1 animate-blink"
+              ></span>
+              <!-- <span class="icon iconfont icon-qianbi !text-[2rem]"></span> -->
             </div>
-            <div class="bg-white shadow !p-1 rounded-3xl !mt-[-1.5rem] relative">
-              <div class="border border-[#FF5588] rounded-3xl !p-2">
-                <!-- 颜色值显示 -->
-                <div class="px-3 py-2 flex items-center space-x-3">
-                  <div
-                    class="flex-1 bg-[#FF5588] text-white !px-2 rounded !mr-4 h-7 font-bold text-xl text-left uppercase"
-                  >
-                    {{ selectedColor }}
-                  </div>
-                  <div
-                    class="w-22 h-8 border border-[#FF5588] rounded"
-                    :style="{ 'background-color': selectedColor }"
-                  ></div>
-                </div>
+            <!-- <img
+              v-show="!visible"
+              class="absolute w-[20%] bottom-[8%] right-[5%]"
+              src="@/assets/images/black_pot.png"
+            /> -->
+            <textarea
+              v-model="barrageText"
+              v-show="showColorSetting"
+              :style="{ color: selectedColor }"
+              maxlength="100"
+              @focus="handleFocus"
+              @blur="handleBlur"
+              class="relative z-[1] w-full h-full bg-transparent resize-none outline-none text-[1.15rem] leading-[2.4rem] px-[10px]"
+            ></textarea>
+          </div>
+        </div>
+        <!-- 颜色设置 -->
+        <transition name="fade-in">
+          <div v-show="showColorSetting" class="flex flex-col items-center justify-center">
+            <div class="color-setting w-full !px-15 overflow-hidden !mt-[28px] !pb-2">
+              <!-- 颜色设置标题 -->
+              <div class="text-white text-[1.6rem] text-center">请选择弹幕颜色</div>
+              <div>
+                <div class="">
+                  <!-- 颜色值显示 -->
+                  <!-- <div class="px-3 py-2 flex items-center space-x-3">
+                    <div
+                      class="flex-1 bg-[#FF5588] text-white !px-2 rounded !mr-4 h-7 font-bold text-xl text-left uppercase"
+                    >
+                      {{ selectedColor }}
+                    </div>
+                    <div
+                      class="w-22 h-8 border border-[#FF5588] rounded"
+                      :style="{ 'background-color': selectedColor }"
+                    ></div>
+                  </div> -->
 
-                <!-- 颜色选择按钮 -->
-                <div class="!px-2 !py-2 grid grid-cols-7 gap-4">
-                  <div
-                    v-for="(color, index) in colorOptions"
-                    :key="index"
-                    @click="handleColorSelect(color)"
-                    :style="{ backgroundColor: color }"
-                    :class="{
-                      'border border-gray': color === '#ffffff',
-                    }"
-                    class="w-7 h-7 rounded-3xl cursor-pointer transition-transform hover:scale-110"
-                  ></div>
+                  <!-- 颜色选择按钮 -->
+                  <div class="!px-2 !py-2 !mt-[15px] grid grid-cols-4 gap-[40px]">
+                    <div
+                      v-for="(color, index) in colorOptions"
+                      :key="index"
+                      @click="handleColorSelect(color)"
+                      :style="{ backgroundColor: color }"
+                      :class="{
+                        'border border-gray': color === '#ffffff',
+                      }"
+                      class="w-7 h-7 rounded-3xl cursor-pointer transition-transform hover:scale-110"
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
+            <!-- 发送按钮 -->
+            <div class="w-[169px]" @click="handleSendClick">
+              <img v-show="!visible" src="@/assets/images/button-text-send.png" />
+            </div>
           </div>
-          <!-- 发送按钮 -->
-          <div class="!my-13 flex items-center justify-center" @click="handleSendClick">
-            <img v-show="!visible" class="w-35" src="@/assets/images/send_button.png" />
-          </div>
-        </div>
-      </transition>
+        </transition>
+      </div>
+      <div v-else>
+        <img class="w-[265px]" src="@/assets/images/pop-send-success.png" alt="send-success" />
+      </div>
     </main>
   </AppBackground>
   <!-- 弹窗 -->
-  <Teleport to="body">
+  <!-- <Teleport to="body">
     <transition name="dialog">
       <div
         v-show="visible"
@@ -265,7 +282,7 @@ const handleBlur = () => {
         <img class="w-34 !mt-22" src="@/assets/images/bot.png" alt="bot" />
       </div>
     </transition>
-  </Teleport>
+  </Teleport> -->
 </template>
 
 <style scoped>

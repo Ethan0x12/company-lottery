@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode }) => {
   console.log(command, mode)
   return {
     // 区分开发环境和生产环境的base路径
-    base: mode === 'production' ? '/bilibilih5/dist/' : '/',
+    base: '/',
     plugins: [
       vue(),
       vueJsx(),
