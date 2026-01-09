@@ -31,8 +31,8 @@ const handleWechatAuth = async () => {
       console.log('获取到授权code:', code)
       // 调用store的action获取用户信息
       await loginStore.actionGetUserInfo(code)
-      // 调用store的action获取token
-      await loginStore.actionPostToekn()
+      // // 调用store的action获取token
+      // await loginStore.actionPostToekn()
       // 移除URL中的code参数，避免重复授权
       removeCodeFromUrl()
       // 授权成功后重定向到首页或其他页面
@@ -41,7 +41,7 @@ const handleWechatAuth = async () => {
       // 没有code，检查本地是否有用户信息
       if (loginStore.wechatUserInfo) {
         // 调用store的action获取token
-        await loginStore.actionPostToekn()
+        // await loginStore.actionPostToekn()
         replaceHome()
         return
       }

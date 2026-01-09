@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode }) => {
   console.log(command, mode)
   return {
     // 区分开发环境和生产环境的base路径
-    base: '/',
+    base: mode === 'production' ? '/ipsenh5/dist/' : '/',
     plugins: [
       vue(),
       vueJsx(),
@@ -51,6 +51,7 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     server: {
+      port: 3000,
       proxy: {
         '/api': {
           target: 'https://apilive.lemonuni.cn',

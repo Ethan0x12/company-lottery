@@ -2,11 +2,11 @@
 import AppBackground from '@/components/background.vue'
 // import { useRouter } from 'vue-router'
 import { ref, onMounted, onUnmounted } from 'vue'
-// import { useBarrageStore } from '@/stores/barrage'
+import { useBarrageStore } from '@/stores/barrage'
 // import defaultBackgroundImage from '@/assets/images/background-2.png'
 
 // store
-// const barrageStore = useBarrageStore()
+const barrageStore = useBarrageStore()
 
 // 路由返回
 // const router = useRouter()
@@ -23,10 +23,10 @@ defineOptions({
 // 选择颜色
 // 定义颜色选项
 const colorOptions = [
-  '#FFF000', // 红色
+  '#00D2FF', // 浅黄色
   '#E770EE', // 橙色
   '#03FF37', // 黄色
-  '#00D2FF', // 浅黄色
+  '#FFF000', // 红色
   // '#efea3c', // 浅绿色
   // '#8ec32c', // 绿色
   // '#4cb134', // 深绿色
@@ -38,7 +38,7 @@ const colorOptions = [
   // '#9b9a9b', // 灰色
   // '#ffffff', // 白色
 ]
-const selectedColor = ref('#FFF000')
+const selectedColor = ref('#00D2FF')
 const handleColorSelect = (color: string) => {
   selectedColor.value = color
 }
@@ -54,7 +54,7 @@ const isPlaceholder = ref(true)
 // })
 
 // 打字动画相关
-const placeholderText = '用一句话表达对2026年马年的祝福（请包含增长、长效剂型、40周年）'
+const placeholderText = '用一句话表达对2026年马年的祝福(请包含增长、长效剂型、40周年)'
 const displayedText = ref('')
 const typingIndex = ref(0)
 const typingSpeed = 100 // 打字速度，毫秒
@@ -137,15 +137,15 @@ const handleSendClick = async () => {
   //   return `缺少关键词：${missingKeywords.join('、')}`
   // }
 
-  // try {
-  //   await barrageStore.activeSendBarrage({
-  //     content: barrageText.value,
-  //     font_color: selectedColor.value,
-  //   })
-  // } catch (error) {
-  //   console.log('error', error)
-  //   return error
-  // }
+  try {
+    await barrageStore.activeSendBarrage({
+      content: barrageText.value,
+      font_color: selectedColor.value,
+    })
+  } catch (error) {
+    console.log('error', error)
+    return error
+  }
 
   visible.value = true
   // document.body.style.height = '100vh'
@@ -188,13 +188,14 @@ const handleBlur = () => {
       <div v-if="!visible">
         <!-- 输入框 -->
         <div
-          class="relative w-[260px] h-[100px] border-2 border-[#00BAFF] bg-white rounded-2xl !mx-auto"
+          class="relative w-[270px] h-[100px] border-2 border-[#00BAFF] bg-white rounded-2xl !mx-auto"
         >
           <!-- <img src="@/assets/images/input_box.png" alt="input-box" /> -->
           <div class="textarea w-full h-full py-[10px]">
             <div
               v-show="isPlaceholder"
-              class="placeholder absolute top-0 left-0 text-[1.15rem] leading-[2.4rem] text-[#C0C0C0] px-[10px] py-[10px]"
+              style="letter-spacing: -0.05rem"
+              class="placeholder absolute top-0 left-0 text-[1.28rem] leading-[1.7rem] text-[#C0C0C0] px-[10px] pt-[20px] text-center"
             >
               {{ displayedText }}
               <span
@@ -215,7 +216,7 @@ const handleBlur = () => {
               maxlength="100"
               @focus="handleFocus"
               @blur="handleBlur"
-              class="relative z-[1] w-full h-full bg-transparent resize-none outline-none text-[1.18rem] leading-[2.4rem] px-[10px]"
+              class="relative z-[1] w-full h-full bg-transparent resize-none outline-none text-[1.4rem] leading-[2.4rem] px-[10px]"
             ></textarea>
           </div>
         </div>
@@ -224,7 +225,7 @@ const handleBlur = () => {
           <div v-show="showColorSetting" class="flex flex-col items-center justify-center">
             <div class="color-setting w-full !px-15 overflow-hidden !mt-[28px] !pb-2">
               <!-- 颜色设置标题 -->
-              <div class="text-white text-[1.6rem] text-center">请选择弹幕颜色</div>
+              <div class="text-white text-[1.3rem] text-center">请选择弹幕颜色</div>
               <div>
                 <div class="">
                   <!-- 颜色值显示 -->
@@ -250,7 +251,7 @@ const handleBlur = () => {
                       :class="{
                         'border border-gray': color === '#ffffff',
                       }"
-                      class="w-7 h-7 rounded-3xl cursor-pointer transition-transform hover:scale-110"
+                      class="w-9 h-9 rounded-3xl cursor-pointer transition-transform hover:scale-110"
                     ></div>
                   </div>
                 </div>

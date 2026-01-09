@@ -3,6 +3,7 @@ import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AppBackground from '@/components/background.vue'
 import { useHomeStore } from '@/stores/home'
+import { useLoginStore } from '@/stores/login'
 
 defineOptions({
   name: 'HomeIndex',
@@ -11,6 +12,8 @@ defineOptions({
 const router = useRouter()
 // 用户隐私存储
 const homeStore = useHomeStore()
+// 登录存储
+const loginStore = useLoginStore()
 // 表单数据
 const form = ref({
   name: '',
@@ -20,7 +23,7 @@ const form = ref({
 const isShowTip = ref<boolean>(false)
 const isAnimating = ref<boolean>(false)
 // 发送弹幕
-const handleSendBarrageClick = () => {
+const handleSendBarrageClick = async () => {
   // if (!homeStore.privacyCheckbox) {
   //   isShowTip.value = true
   //   return
@@ -28,6 +31,10 @@ const handleSendBarrageClick = () => {
   if (!form.value.name || !form.value.department) {
     return
   }
+  await loginStore.actionPostToekn({
+    name: form.value.name,
+    department: form.value.department,
+  })
   router.push('/send_barrage')
 }
 // 监听复选框变化

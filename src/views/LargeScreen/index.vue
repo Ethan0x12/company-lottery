@@ -4,7 +4,6 @@ import Danmaku from 'danmaku-vue'
 import { useBarrageStore } from '@/stores/barrage'
 import type { WelcomeBarrage } from '@/types'
 import { ElMessage, ElCarousel, ElCarouselItem } from 'element-plus'
-console.log(ElCarousel, ElCarouselItem)
 
 defineOptions({
   name: 'LargeScreen',
@@ -77,7 +76,7 @@ onMounted(() => {
   window?.addEventListener('resize', () => {
     danmakuRef.value?.reset()
   })
-  barrageStore.activeGetBackground()
+  // barrageStore.activeGetBackground()
 })
 
 onUnmounted(() => {
@@ -88,7 +87,8 @@ onUnmounted(() => {
 <template>
   <main class="h-screen flex flex-1 flex-col items-center justify-center">
     <div class="w-screen h-screen relative bg-black">
-      <template v-if="Array.isArray(barrageStore.background) && barrageStore.background.length">
+      <!-- Array.isArray(barrageStore.background) && barrageStore.background.length -->
+      <template v-if="false">
         <el-carousel height="100vh" arrow="never" indicator-position="none" :autoplay="false">
           <el-carousel-item
             v-for="(item, index) in barrageStore.background as { pic_url: string }[]"

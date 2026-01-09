@@ -36,7 +36,8 @@ export const getWechatUserInfo = (params?: GetWechatUserInfoParams) => {
  * @returns Promise<ApiResponse<WechatUserInfo>>
  */
 export const postMemberToken = (params: PostToeknParams, data: PostToeknData) => {
-  return post<MemberTokenResponse>('/api/common/v2/member/login?' + paramsToQuery(params), data, {
+  // return post<MemberTokenResponse>('/api/common/v2/member/login?' + paramsToQuery(params), data, {
+  return post<MemberTokenResponse>('/api/common/v1/live/login?' + paramsToQuery(params), data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },

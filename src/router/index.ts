@@ -7,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: '/',
-      redirect: '/home'
+      redirect: '/authorize'
       // redirect: import.meta.env.MODE !== 'development' ? '/authorize' : '/home',
     },
     {

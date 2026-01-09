@@ -9,9 +9,11 @@ export const useLoginStore = defineStore('login', () => {
   // token
   let token: string = ''
   // 公司ID
-  const company_id: string = '1754897648'
+  const company_id: string = '1702549419'
   // 部门编码
-  const dep_code: string = '750_'
+  const dep_code: string = '678_'
+  // 直播id
+  const live_id: string = '35'
   // 授权范围
   const scope: WechatAuthScope = 'snsapi_userinfo'
 
@@ -45,7 +47,7 @@ export const useLoginStore = defineStore('login', () => {
   }
 
   // 登录获取token
-  async function actionPostToekn() {
+  async function actionPostToekn(form: { name: string; department: string }) {
     if (!wechatUserInfo.value) {
       throw new Error('用户信息未初始化')
     }
@@ -57,14 +59,16 @@ export const useLoginStore = defineStore('login', () => {
       throw new Error('openid 为空')
     }
     const memberToken = (await postMemberToken(
-      { company_id, dep_code },
+      { company_id, dep_code, live_id },
       {
         login_field: 'openid',
         login_value: openId,
         openid: openId,
-        username: username || '',
+        name: form.name || '',
         avatar: avatar || '',
         nick_name: nick_name || '',
+        login_type: 'update',
+        department: form.department || '',
       },
     )) as {
       token: string
@@ -98,6 +102,7 @@ export const useLoginStore = defineStore('login', () => {
     token,
     company_id,
     dep_code,
+    live_id,
     isLoggedIn,
     actionGetUserInfo,
     actionPostToekn,

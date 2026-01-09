@@ -42,6 +42,7 @@ export type GetWechatUserInfoParams = {
 export type PostToeknParams = {
   company_id: string
   dep_code: string
+  live_id: string
   id?: string | number
 }
 
@@ -50,6 +51,9 @@ export type PostToeknData = {
   login_value: string
   openid: string
   username?: string
+  name?: string
   avatar?: string
   nick_name?: string
+  login_type?: string
+  department?: string
 }

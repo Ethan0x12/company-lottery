@@ -63,6 +63,7 @@ export const useBarrageStore = defineStore('barrage', () => {
         {
           company_id: loginStore.company_id,
           dep_code: loginStore.dep_code,
+          live_id: loginStore.live_id,
         },
         data,
       )
@@ -98,6 +99,7 @@ export const useBarrageStore = defineStore('barrage', () => {
       const data = (await getDanmakuList({
         company_id: loginStore.company_id,
         dep_code: loginStore.dep_code,
+        live_id: loginStore.live_id,
       })) as Barrage[]
       // 直接替换整个数组，确保响应式更新
       danmus.value = data.slice(0, 99).reverse() || [] // 确保data不为null/undefined
@@ -112,6 +114,7 @@ export const useBarrageStore = defineStore('barrage', () => {
       const data = (await getWelcomeList({
         company_id: loginStore.company_id,
         dep_code: loginStore.dep_code,
+        live_id: loginStore.live_id,
       })) as WelcomeBarrage[]
       welcomeList.value = data || [] // 确保data不为null/undefined
     } catch (error) {
@@ -125,6 +128,7 @@ export const useBarrageStore = defineStore('barrage', () => {
       const data = (await getBackground({
         company_id: loginStore.company_id,
         dep_code: loginStore.dep_code,
+        live_id: loginStore.live_id,
         id: 29539,
       })) as {
         pic_arr?: []
